@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}{{ product.product_name }} | QR ChainAuth{% endblock %}
+{% block content %}
+<section class="product-layout">
+    <article class="panel product-card">
+        <div class="panel-header">
+            <div>
+                <span class="eyebrow">Product identity</span>
+                <h1>{{ product.product_name }}</h1>
+            </div>
+            <span class="badge {{ product.status }}">{{ product.status }}</span>
+        </div>
+        <div class="detail-grid">
+            <div><strong>Product UID</strong><span>{{ product.product_uid }}</span></div>
+            <div><strong>Brand</strong><span>{{ product.brand }}</span></div>
+            <div><strong>Category</strong><span>{{ product.category }}</span></div>
+            <div><strong>Batch Number</strong><span>{{ product.batch_number }}</span></div>
+            <div><strong>Manufacturer</strong><span>{{ product.manufacturer }}</span></div>
+            <div><strong>Manufacture Date</strong><span>{{ product.manufacture_date }}</span></div>
+            <div><strong>Expiry Date</strong><span>{{ product.expiry_date or 'Not specified' }}</span></div>
+            <div><strong>Created At</strong><span>{{ product.created_at }}</span></div>
+        </div>
+        <p class="description">{{ product.description or 'No additional description provided.' }}</p>
+        <div class="actions-row">
+            <a class="button secondary" href="{{ url_for('verify_product', product_uid=product.product_uid) }}">Open Verification Page</a>
+            <form method="post" action="{{ url_for('regenerate_qr', product_uid=product.product_uid) }}">
+                <button class="button ghost" type="submit">Regenerate QR</button>
+            </form>
+            {% if product.status == 'unsold' %}
+            <form method="post" action="{{ url_for('mark_sold', product_uid=product.product_uid) }}">
+                <button class="button primary" type="submit">Mark as Sold</button>
+            </form>
+            {% endif %}
+        </div>
+    </article>
+
+    <aside class="panel qr-panel">
+        <h2>Generated QR Code</h2>
+        <img src="{{ url_for('qrcodes', filename=product.qr_filename) }}" alt="QR code for {{ product.product_name }}">
+        <p>Scan this QR code to verify the product and view live authenticity status.</p>
+        <a class="button ghost" href="{{ url_for('qrcodes', filename=product.qr_filename) }}" target="_blank">Open QR Image</a>
+    </aside>
+</section>
+
+<section class="panel">
+    <div class="panel-header">
+        <h2>Blockchain Ledger</h2>
+        <span class="ledger-status {{ 'valid' if chain_valid else 'invalid' }}">
+            {{ 'Chain Valid' if chain_valid else 'Chain Invalid' }}
+        </span>
+    </div>
+    <div class="timeline">
+        {% for item in history %}
+        <article class="timeline-item">
+            <h3>{{ item.event_type|capitalize }}</h3>
+            <p>{{ item.event_message }}</p>
+            <small>{{ item.event_time }} | {{ item.actor }}</small>
+            <code>{{ item.current_hash[:20] }}...</code>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

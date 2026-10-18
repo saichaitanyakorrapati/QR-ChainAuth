@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}QR ChainAuth{% endblock %}
+{% block content %}
+<section class="hero">
+    <div class="hero-copy">
+        <span class="eyebrow">Trusted product verification</span>
+        <h1>Trace every product with secure QR verification and blockchain-style history.</h1>
+        <p>
+            Register goods, generate unique QR codes, verify authenticity in real time, and preserve a tamper-evident chain of events from creation to sale.
+        </p>
+        <div class="hero-actions">
+            <a class="button primary" href="{{ url_for('login') }}">Enter Admin Panel</a>
+            <a class="button secondary" href="{{ url_for('history') if session.get('admin_logged_in') else url_for('login') }}">View Ledger</a>
+        </div>
+    </div>
+    <div class="hero-card glass">
+        <h3>Live System Snapshot</h3>
+        <div class="stats-grid">
+            <article class="stat-card">
+                <span>Total Products</span>
+                <strong>{{ stats.total_products }}</strong>
+            </article>
+            <article class="stat-card">
+                <span>Sold Items</span>
+                <strong>{{ stats.sold_products }}</strong>
+            </article>
+            <article class="stat-card">
+                <span>Unsold Items</span>
+                <strong>{{ stats.unsold_products }}</strong>
+            </article>
+            <article class="stat-card">
+                <span>Total Scans</span>
+                <strong>{{ stats.total_scans }}</strong>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="feature-grid">
+    <article class="feature-card">
+        <h3>Register Products</h3>
+        <p>Manufacturers or admins can add a product with batch details, production dates, and brand information.</p>
+    </article>
+    <article class="feature-card">
+        <h3>Generate QR Codes</h3>
+        <p>Every product receives a unique QR code linked to its digital identity for instant authenticity checks.</p>
+    </article>
+    <article class="feature-card">
+        <h3>Track Status</h3>
+        <p>Products remain marked as unsold until an admin confirms the sale after a verification scan.</p>
+    </article>
+    <article class="feature-card">
+        <h3>Ledger History</h3>
+        <p>Scans, registrations, and sales are written into a hash-linked ledger to preserve traceability.</p>
+    </article>
+</section>
+
+{% if stats.latest_products %}
+<section class="panel">
+    <div class="panel-header">
+        <h2>Recent Products</h2>
+        {% if session.get('admin_logged_in') %}
+            <a class="button ghost" href="{{ url_for('admin_dashboard') }}">Open Dashboard</a>
+        {% endif %}
+    </div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Name</th>
+                    <th>Brand</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in stats.latest_products %}
+                <tr>
+                    <td>{{ product.product_uid }}</td>
+                    <td>{{ product.product_name }}</td>
+                    <td>{{ product.brand }}</td>
+                    <td><span class="badge {{ product.status }}">{{ product.status }}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

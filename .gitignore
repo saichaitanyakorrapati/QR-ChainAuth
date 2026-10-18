@@ -1,0 +1,15 @@
+.venv/
+.venv_old/
+venv/
+__pycache__/
+*.py[cod]
+instance/
+*.db
+*.sqlite
+*.sqlite3
+.env
+.env.*
+!.env.example
+static/qrcodes/
+.DS_Store
+Thumbs.db

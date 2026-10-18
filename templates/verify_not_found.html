@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Product Not Found | QR ChainAuth{% endblock %}
+{% block content %}
+<section class="panel empty-state">
+    <span class="eyebrow">Verification failed</span>
+    <h1>Product not found</h1>
+    <p>The scanned QR code does not match any registered product in QR ChainAuth.</p>
+    <p><strong>Requested Product ID:</strong> {{ product_uid }}</p>
+    <a class="button primary" href="{{ url_for('home') }}">Return Home</a>
+</section>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Register Product | QR ChainAuth{% endblock %}
+{% block content %}
+<section class="panel form-panel">
+    <div class="panel-header">
+        <div>
+            <span class="eyebrow">New secure entry</span>
+            <h1>Register Product</h1>
+        </div>
+    </div>
+    <form method="post" class="form-grid two-column">
+        <label>
+            <span>Product Name</span>
+            <input type="text" name="product_name" value="{{ form.get('product_name', '') }}" required>
+        </label>
+        <label>
+            <span>Brand</span>
+            <input type="text" name="brand" value="{{ form.get('brand', '') }}" required>
+        </label>
+        <label>
+            <span>Category</span>
+            <input type="text" name="category" value="{{ form.get('category', '') }}" required>
+        </label>
+        <label>
+            <span>Batch Number</span>
+            <input type="text" name="batch_number" value="{{ form.get('batch_number', '') }}" required>
+        </label>
+        <label>
+            <span>Manufacturer</span>
+            <input type="text" name="manufacturer" value="{{ form.get('manufacturer', '') }}" required>
+        </label>
+        <label>
+            <span>Manufacture Date</span>
+            <input type="date" name="manufacture_date" value="{{ form.get('manufacture_date', '') }}" required>
+        </label>
+        <label>
+            <span>Expiry Date</span>
+            <input type="date" name="expiry_date" value="{{ form.get('expiry_date', '') }}">
+        </label>
+        <label class="full-width">
+            <span>Description</span>
+            <textarea name="description" rows="5" placeholder="Add product notes, serial details, or verification context">{{ form.get('description', '') }}</textarea>
+        </label>
+        <div class="full-width">
+            <button class="button primary" type="submit">Generate QR and Save Product</button>
+        </div>
+    </form>
+</section>
+{% endblock %}

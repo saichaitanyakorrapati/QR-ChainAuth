@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Verify {{ product.product_name }} | QR ChainAuth{% endblock %}
+{% block content %}
+<section class="verify-banner {{ product.status }}">
+    <span class="eyebrow">Authenticity result</span>
+    <h1>{{ product.product_name }}</h1>
+    <p>
+        This product is currently
+        <strong>{{ product.status }}</strong>.
+        {% if product.status == 'sold' %}
+            The QR has already been used in a completed sale flow.
+        {% else %}
+            The product is available and has not yet been marked as sold.
+        {% endif %}
+    </p>
+    <div class="verify-meta">
+        <span>Product ID: {{ product.product_uid }}</span>
+        <span>Brand: {{ product.brand }}</span>
+        <span>Batch: {{ product.batch_number }}</span>
+    </div>
+    {% if session.get('admin_logged_in') and product.status == 'unsold' %}
+    <form method="post" action="{{ url_for('mark_sold', product_uid=product.product_uid) }}">
+        <button class="button primary" type="submit">Admin: Mark as Sold</button>
+    </form>
+    {% elif product.status == 'unsold' %}
+    <a class="button ghost" href="{{ url_for('login', next=request.path) }}">Admin Login to Mark Sold</a>
+    {% endif %}
+</section>
+
+<section class="product-layout">
+    <article class="panel product-card">
+        <div class="panel-header">
+            <h2>Verification Details</h2>
+            <span class="ledger-status {{ 'valid' if chain_valid else 'invalid' }}">
+                {{ 'Chain Valid' if chain_valid else 'Chain Invalid' }}
+            </span>
+        </div>
+        <div class="detail-grid">
+            <div><strong>Manufacturer</strong><span>{{ product.manufacturer }}</span></div>
+            <div><strong>Category</strong><span>{{ product.category }}</span></div>
+            <div><strong>Manufacture Date</strong><span>{{ product.manufacture_date }}</span></div>
+            <div><strong>Sold At</strong><span>{{ product.sold_at or 'Not sold yet' }}</span></div>
+        </div>
+        <p class="description">{{ product.description or 'No additional description provided.' }}</p>
+    </article>
+
+    <aside class="panel qr-panel">
+        <h2>Trust Signals</h2>
+        <ul class="signal-list">
+            <li>Unique QR linked to a single product identity</li>
+            <li>Every scan is added to the verification history</li>
+            <li>Hash-linked ledger helps detect tampering</li>
+        </ul>
+    </aside>
+</section>
+
+<section class="panel">
+    <div class="panel-header">
+        <h2>Event History</h2>
+    </div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Event</th>
+                    <th>Actor</th>
+                    <th>Time</th>
+                    <th>Hash</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in history %}
+                <tr>
+                    <td>{{ item.event_message }}</td>
+                    <td>{{ item.actor }}</td>
+                    <td>{{ item.event_time }}</td>
+                    <td><code>{{ item.current_hash[:16] }}...</code></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

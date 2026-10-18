@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Admin Login | QR ChainAuth{% endblock %}
+{% block content %}
+<section class="auth-layout">
+    <div class="auth-panel glass">
+        <span class="eyebrow">Protected access</span>
+        <h1>Admin Login</h1>
+        <p>Use the admin account to register products, generate QR codes, and mark verified goods as sold.</p>
+        <form method="post" class="form-grid">
+            <label>
+                <span>Username</span>
+                <input type="text" name="username" placeholder="Enter admin username" required>
+            </label>
+            <label>
+                <span>Password</span>
+                <input type="password" name="password" placeholder="Enter admin password" required>
+            </label>
+            <button class="button primary" type="submit">Login</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

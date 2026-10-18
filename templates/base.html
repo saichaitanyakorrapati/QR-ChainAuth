@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}QR ChainAuth{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="page-shell">
+        <header class="site-header">
+            <a class="brand" href="{{ url_for('home') }}">
+                <span class="brand-mark">QC</span>
+                <span>
+                    <strong>QR ChainAuth</strong>
+                    <small>Blockchain Based Product Verification</small>
+                </span>
+            </a>
+            <nav class="site-nav">
+                <a href="{{ url_for('home') }}">Home</a>
+                {% if session.get('admin_logged_in') %}
+                    <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+                    <a href="{{ url_for('create_product') }}">Register Product</a>
+                    <a href="{{ url_for('history') }}">History</a>
+                    <a class="button ghost" href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                    <a class="button ghost" href="{{ url_for('login') }}">Admin Login</a>
+                {% endif %}
+            </nav>
+        </header>
+
+        <main class="main-content">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-stack">
+                        {% for category, message in messages %}
+                            <div class="flash {{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</body>
+</html>

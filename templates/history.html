@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Ledger History | QR ChainAuth{% endblock %}
+{% block content %}
+<section class="panel">
+    <div class="panel-header">
+        <div>
+            <span class="eyebrow">Immutable activity log</span>
+            <h1>Ledger History</h1>
+        </div>
+    </div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Event Type</th>
+                    <th>Message</th>
+                    <th>Actor</th>
+                    <th>Time</th>
+                    <th>Current Hash</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in records %}
+                <tr>
+                    <td>{{ item.product_name }}<br><small>{{ item.product_uid }}</small></td>
+                    <td>{{ item.event_type }}</td>
+                    <td>{{ item.event_message }}</td>
+                    <td>{{ item.actor }}</td>
+                    <td>{{ item.event_time }}</td>
+                    <td><code>{{ item.current_hash[:18] }}...</code></td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6">No ledger records available yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
