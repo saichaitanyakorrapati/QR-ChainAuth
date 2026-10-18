@@ -79,23 +79,13 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### 4. Configure environment variables
 
-Set a secret key and your own administrator credentials in PowerShell:
 
-```powershell
-$env:SECRET_KEY = python -c "import secrets; print(secrets.token_hex(32))"
-$env:ADMIN_USERNAME = Read-Host "Enter an admin username"
-$env:ADMIN_PASSWORD = Read-Host "Enter a strong admin password"
-```
-
-Optionally, configure the base URL used when generating QR codes:
 
 ```powershell
 $env:BASE_URL = "http://127.0.0.1:5000"
 ```
 
-Do not commit passwords, secret keys, or other sensitive credentials to GitHub. These environment variables apply to the current PowerShell session.
 
 ### 5. Run the application
 
@@ -118,11 +108,8 @@ Use the administrator username and password configured in Step 4.
 
 ## Contributors
 
-- Your Name — Project development
-- Friend's Name — Collaboration
+- Jayateja paam
+- sumith reddy anugu
 
 Replace the contributor placeholders with the contributors' preferred names and GitHub profiles.
 
-## License
-
-No license has been added yet. Add a license if you intend to specify how others may use, modify, and distribute this project.
