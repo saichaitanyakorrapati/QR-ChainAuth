@@ -78,16 +78,7 @@ python -m venv .venv
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
-
-
-
-
-```powershell
-$env:BASE_URL = "http://127.0.0.1:5000"
-```
-
-
-### 5. Run the application
+### 4. Run the application
 
 ```powershell
 python app.py
@@ -97,7 +88,11 @@ Open the application in your browser at:
 
 http://127.0.0.1:5000
 
-Use the administrator username and password configured in Step 4.
+### 5.Admin login
+username:your_admin_username
+password:sjc@2026
+
+
 
 ## Notes and Limitations
 
@@ -108,7 +103,7 @@ Use the administrator username and password configured in Step 4.
 
 ## Contributors
 
-- Jayateja paam
+- Jayateja pasam
 - sumith reddy anugu
 
 Replace the contributor placeholders with the contributors' preferred names and GitHub profiles.
